@@ -72,21 +72,33 @@ users_table_insert = ("""INSERT INTO users(user_id, first_name,
                             last_name, gender, level)
                           VALUES (%s, %s, %s, %s, %s)
                           ON CONFLICT (user_id)
-                            DO UPDATE SET level=EXCLUDED.level
+                            DO UPDATE SET
+                            first_name = EXCLUDED.first_name,
+                            last_name = EXCLUDED.last_name,
+                            gender = EXCLUDED.gender,
+                            level=EXCLUDED.level
                           ; """)
 
 songs_table_insert = ("""INSERT INTO songs (song_id, title, artist_id,
                            year, duration)
                           VALUES (%s, %s, %s, %s, %s)
                           ON CONFLICT (song_id)
-                            DO NOTHING
+                            DO UPDATE SET
+                            title = EXCLUDED.title,
+                            artist_id = EXCLUDED.artist_id,
+                            year = EXCLUDED.year,
+                            duration = EXCLUDED.duration
                           ; """)
 
 artists_table_insert = ("""INSERT INTO artists (artist_id, artist_name,
                              location, latitude, longitude)
                           VALUES (%s, %s, %s, %s, %s)
                           ON CONFLICT (artist_id)
-                            DO NOTHING
+                            DO UPDATE SET
+                            artist_name = EXCLUDED.artist_name,
+                            location = EXCLUDED.location,
+                            latitude = EXCLUDED.latitude,
+                            longitude = EXCLUDED.longitude
                           ; """)
 
 
