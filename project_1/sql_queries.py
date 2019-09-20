@@ -1,5 +1,5 @@
 
-"""Description: This file contains SQL drop and create table statements 
+"""Description: This file contains SQL drop and create table statements
 statements as well as SQL insert statements for tables
 in the database Sparkify.
 It is called from the scripts create_tables.py and etl.py.
@@ -19,19 +19,19 @@ songplay_table_create = """CREATE TABLE IF NOT EXISTS songplay
                          (songplay_id serial PRIMARY KEY,
                          start_dttime timestamp without time zone,
                          user_id int NOT NULL,
-                         level varchar DEFAULT 'Free', 
+                         level varchar DEFAULT 'Free',
                          song_id varchar,
-                         artist_id varchar, 
+                         artist_id varchar,
                          session_id int NOT NULL,
                          location varchar DEFAULT 'Unknown',
                          user_agent varchar NOT NULL,
-                         raw_song varchar, 
+                         raw_song varchar,
                          raw_artist varchar)
                          ; """
 
 users_table_create = """CREATE TABLE IF NOT EXISTS users
                         (user_id int PRIMARY KEY,
-                        first_name varchar, 
+                        first_name varchar,
                         last_name varchar DEFAULT 'unknown',
                         gender char(1) DEFAULT 'U',
                         level varchar DEFAULT 'Free')
@@ -69,20 +69,24 @@ songplay_table_insert = ("""INSERT INTO songplay (start_dttime, user_id,
                             ; """)
 
 users_table_insert = ("""INSERT INTO users(user_id, first_name,
-                            last_name, gender,
-                            level ON CONFLICT (user_id) 
-                              DO UPDATE SET level=EXCLUDED.level)
+                            last_name, gender, level)
                           VALUES (%s, %s, %s, %s, %s)
+                          ON CONFLICT (user_id)
+                            DO UPDATE SET level=EXCLUDED.level
                           ; """)
 
 songs_table_insert = ("""INSERT INTO songs (song_id, title, artist_id,
                            year, duration)
                           VALUES (%s, %s, %s, %s, %s)
+                          ON CONFLICT (song_id)
+                            DO NOTHING
                           ; """)
 
 artists_table_insert = ("""INSERT INTO artists (artist_id, artist_name,
                              location, latitude, longitude)
                           VALUES (%s, %s, %s, %s, %s)
+                          ON CONFLICT (artist_id)
+                            DO NOTHING
                           ; """)
 
 

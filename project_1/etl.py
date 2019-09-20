@@ -28,9 +28,6 @@ def process_song_file(cur, filepath):
     """
     # open song file
     df = pd.read_json(filepath, lines=True)
-    df.sort_values(by=['song_id'], inplace=True)
-    df.drop_duplicates(
-        subset=['song_id'], keep=False, inplace=True)
 
     # insert song record
     # this operation produces a list within a list
@@ -47,9 +44,6 @@ def process_song_file(cur, filepath):
     cur.execute(songs_table_insert, song_data)
 
     # insert artist record
-    df.sort_values(by='artist_id', inplace=True)
-    df.drop_duplicates(
-        subset='artist_id', keep=False, inplace=True)
     artist_data_t = df.loc[:, ['artist_id', 'artist_name',
         'artist_location', 'artist_latitude',
         'artist_longitude']].values.tolist()
