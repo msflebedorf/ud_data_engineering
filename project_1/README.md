@@ -19,6 +19,8 @@ The following five tables are part of the Sparkify database. I am using a basic 
 4. Songplay. The fact table. Data includes user_id, browser type (user agent) and playback start date and time. Joins to the users dimension table. Should join to the artists and songs tables, but an issue in the downloaded test data prevents that (see Issues, below). Data originates from log files.
 5. Time. A dimension table that makes it easy to access the month, day, week, year of the playback start timestamp as contained in the songplay table. Data originates from log files.
 
+Because this database is for analytical purposes, we want to load data even if non-critical values are missing. For this reason, rather than throw errors by using 'NOT NULL' constraint for non-critical values, we will use a DEFAULT value. Often 
+'Unknown' will be used as a default rather than allowing a NULL default so that results are easier for the end use to read.
 
 ### Process ###
 
